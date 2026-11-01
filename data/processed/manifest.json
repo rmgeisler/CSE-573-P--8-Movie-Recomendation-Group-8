@@ -1,0 +1,137 @@
+{
+  "version": "v1_2026-10-19",
+  "created_utc": "2026-10-19T07:43:21.624736+00:00",
+  "source": "MovieLens 20M + TMDB API",
+  "config": {
+    "min_user_ratings": 20,
+    "min_movie_ratings": 5,
+    "top_cast_n": 5,
+    "max_keywords": 10,
+    "train_frac": 0.8,
+    "val_frac": 0.1,
+    "test_frac": 0.1,
+    "min_ratings_for_split": 3,
+    "relevance_threshold": 4.0,
+    "split_rule": "per-user chronological, ties broken by movie_id"
+  },
+  "files": {
+    "links.parquet": {
+      "sha256": "6220cfc21955ce673537e6fe804887e3b6bb218eb401b9640e66ff7aa0dd65cd",
+      "bytes": 462555
+    },
+    "metadata.parquet": {
+      "sha256": "a29b38a3e8a66da5cbc48bf4292367cc90e237389cb9a5bf43fbe43ed6e4333e",
+      "bytes": 7017163
+    },
+    "movies.parquet": {
+      "sha256": "2bd380e4ae55c020d22bb3c8937eedc15188b6d9f8a330f0e45e63007dd7a7d0",
+      "bytes": 1034875
+    },
+    "ratings.parquet": {
+      "sha256": "4707c01cc712d1d6c3634fed2f5a9a854c31a04b749654db178284f60d88f349",
+      "bytes": 129091989
+    },
+    "test.parquet": {
+      "sha256": "c5bdf11f916d1978f7c03cab2ba85d08e1c0cc6d912d703c3e8750b6cc3a65f4",
+      "bytes": 14621111
+    },
+    "train.parquet": {
+      "sha256": "d04a2ab8a14da83e85771a493b0e2679a5edb1062409bee5ac88265eaae963f9",
+      "bytes": 99984865
+    },
+    "user_map.parquet": {
+      "sha256": "933b4d4c4f4955bcf9d8182555710564c3a7c8d94583542c202da740406f6e82",
+      "bytes": 1684140
+    },
+    "val.parquet": {
+      "sha256": "30043b9668ac7db6390d703a3257e8096455f29f53a4e631961206c7ec169c4a",
+      "bytes": 14354360
+    }
+  },
+  "reports": {
+    "step1_stats": {
+      "n_ratings": 19983694,
+      "n_users": 138476,
+      "n_movies": 18342,
+      "density": 0.007867822829753433,
+      "sparsity_pct": 99.21321771702466,
+      "movies_missing_tmdb_id": 66,
+      "filter_history": [
+        {
+          "round": 1,
+          "ratings_dropped": 16557,
+          "ratings_remaining": 19983706,
+          "users_remaining": 138476,
+          "movies_remaining": 18345
+        },
+        {
+          "round": 2,
+          "ratings_dropped": 12,
+          "ratings_remaining": 19983694,
+          "users_remaining": 138476,
+          "movies_remaining": 18342
+        },
+        {
+          "round": 3,
+          "ratings_dropped": 0,
+          "ratings_remaining": 19983694,
+          "users_remaining": 138476,
+          "movies_remaining": 18342
+        }
+      ],
+      "config": {
+        "min_user_ratings": 20,
+        "min_movie_ratings": 5,
+        "top_cast_n": 5,
+        "max_keywords": 10,
+        "train_frac": 0.8,
+        "val_frac": 0.1,
+        "test_frac": 0.1,
+        "min_ratings_for_split": 3,
+        "relevance_threshold": 4.0,
+        "split_rule": "per-user chronological, ties broken by movie_id"
+      }
+    },
+    "step3_coverage": {
+      "source": "kaggle:the-movies-dataset",
+      "movies_in_catalog": 18342,
+      "movies_with_metadata": 18214,
+      "match_rate_pct": 99.3,
+      "field_coverage_pct": {
+        "overview": 98.92,
+        "director": 98.74,
+        "cast_3_plus": 94.81,
+        "genre": 98.0,
+        "keywords": 83.65,
+        "all_four_complete": 93.62
+      },
+      "excluded": {
+        "no_tmdb_id": 66,
+        "tmdb_id_not_in_dump": 62,
+        "malformed_rows_dropped": 3,
+        "duplicate_ids_dropped": 30
+      }
+    },
+    "step4_split": {
+      "n_train": 16103118,
+      "n_val": 1940288,
+      "n_test": 1940288,
+      "pct_train": 80.58,
+      "pct_val": 9.71,
+      "pct_test": 9.71,
+      "users_total": 138476,
+      "users_in_test": 138476,
+      "users_with_relevant_test_item": 127687,
+      "relevance_threshold": 4.0,
+      "test_rows_with_cold_item": 1054,
+      "test_rows_with_cold_user": 0,
+      "timestamp_violations": 0,
+      "cold_start_users_lt10_train": 0,
+      "heavy_users_gt50_train": 73030
+    }
+  },
+  "environment": {
+    "python": "3.12.15",
+    "platform": "macOS-14.6.1-arm64-arm-64bit"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "pop_alpha": 0.75,
+  "smoothing": 0.1,
+  "normalize_candidates": false,
+  "backfill": false,
+  "rel_weights": {
+    "DIRECTED_BY": 1.0,
+    "STARS": 1.2,
+    "HAS_KEYWORD": 0.5,
+    "HAS_GENRE": 0.3
+  }
+}

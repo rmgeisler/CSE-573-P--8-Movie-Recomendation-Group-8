@@ -7,6 +7,7 @@ import pandas as pd
 from openai import OpenAI
 from getpass import getpass
 
+import matplotlib.pyplot as plt
 
 print("PyArrow version:", pyarrow.__version__)
 
@@ -71,9 +72,14 @@ knn_model.fit(train)
 
 # Test one user from the training data
 user_ids = train["user_idx"].unique()
-# user_idx = int(train["user_idx"].iloc[110])
-user_idx = int(user_ids[1])  # Second distinct user
-print("User ID:", user_idx)
+
+user_choice = int(input("Select user position (0-9): "))
+
+if 0 <= user_choice < min(10, len(user_ids)):
+    user_idx = int(user_ids[user_choice])
+    print("Selected User ID:", user_idx)
+else:
+    raise ValueError("Invalid selection. Enter a number between 0 and 9.")
 
 # Get movies already seen by this user
 seen = set(
@@ -100,9 +106,47 @@ recommendations = rag.recommend_for_user(
 print("Recommendation process completed!")
 print("Number of recommendations:", len(recommendations))
 
-print("\nTop 10 Movie Recommendations:")
-print(recommendations[["movie_idx", "title", "candidate_source"]])
+# print("\nTop 10 Movie Recommendations:")
+# print(recommendations[["movie_idx", "title", "candidate_source"]])
 
+# Create recommendation plot data
+plot_data = recommendations[["movie_idx", "title", "candidate_source"]].copy()
+plot_data["rank"] = range(1, len(plot_data) + 1)
+
+# Reverse order so Rank 1 appears at the top
+plot_data = plot_data.iloc[::-1]
+
+plt.figure(figsize=(14, 8))
+
+bars = plt.barh(
+    plot_data["title"],
+    11 - plot_data["rank"]
+)
+
+plt.xlabel("Relative Ranking (Higher = Better)")
+plt.ylabel("Movie Title")
+plt.title("Top 10 Movie Recommendations")
+
+plt.xticks(range(1, 11))
+plt.xlim(0, 13)
+plt.grid(axis="x", linestyle="--", alpha=0.4)
+
+# Display movie index and candidate source
+for bar, movie_idx, source in zip(
+    bars,
+    plot_data["movie_idx"],
+    plot_data["candidate_source"]
+):
+    plt.text(
+        bar.get_width() + 0.15,
+        bar.get_y() + bar.get_height() / 2,
+        f"ID: {movie_idx} | Source: {source}",
+        va="center",
+        fontsize=9
+    )
+
+plt.tight_layout()
+plt.show()
 
 print("\nAvailable columns:")
 print(recommendations.columns.tolist())

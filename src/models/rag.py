@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import faiss
 import traceback
+from tqdm.auto import tqdm
 
 class MovieRAG:
 
@@ -101,40 +102,42 @@ class MovieRAG:
 
         all_embeddings = []
 
-        for start in range(0, len(texts), self.batch_size):
+        with tqdm(
+            total=len(texts),
+            desc="Generating Movie Embeddings",
+            unit="movie",
+            dynamic_ncols=True
+        ) as pbar:
 
-            batch = texts[start:start + self.batch_size]
+            for start in range(0, len(texts), self.batch_size):
 
-            response = self.client.embeddings.create(
-                model=self.embedding_model,
-                input=batch
-            )
+                batch = texts[start:start + self.batch_size]
 
-            # Preserve the original input order
-            batch_embeddings = sorted(
-                response.data,
-                key=lambda x: x.index
-            )
+                response = self.client.embeddings.create(
+                    model=self.embedding_model,
+                    input=batch
+                )
 
-            all_embeddings.extend(
-                item.embedding for item in batch_embeddings
-            )
+                batch_embeddings = sorted(
+                    response.data,
+                    key=lambda x: x.index
+                )
 
-            print(
-                f"Embedded {min(start + len(batch), len(texts))}"
-                f" / {len(texts)} movies"
-            )
+                all_embeddings.extend(
+                    item.embedding for item in batch_embeddings
+                )
+
+                pbar.update(len(batch))
 
         embeddings = np.array(
             all_embeddings,
             dtype="float32"
         )
 
-        # Normalize vectors for cosine similarity
         faiss.normalize_L2(embeddings)
 
         return embeddings
-
+    
     # Generate movie embeddings and build FAISS index
     def fit(self, metadata):
 

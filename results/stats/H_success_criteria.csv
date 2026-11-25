@@ -1,0 +1,5 @@
+success criterion,verdict,evidence
+1. Full pipeline beats ALS on NDCG@10 and P@10 (significant),NOT MET,NDCG@10 diff -0.0599 (p=0.000353); P@10 diff -0.0210 (p=0.00665)
+2. Novelty or diversity improves without NDCG@10 falling below ALS,NOT MET,novelty diff +0.741 (p=5.92e-10); ILD diff -0.165 (p=9.19e-15); NDCG@10 below ALS: True
+3. New users gain more over ALS than heavy users (KG retriever; full pipeline not run on cold start),PASS (KG retriever only),"KG minus ALS: first 5 +0.0147, first 10 +0.0104, heavy -0.0182"
+4. At least 90% of explanations are faithful,PASS,99.6% of 500 explanations (structured check); text check 99.6%

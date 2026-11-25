@@ -1,0 +1,4 @@
+,"Spearman(pool rank, LLM rank)",share of LLM top-10 also in pool top-10,mean LLM rank of the pool's top-10 items,knn: share of top-10,knn: hit rate,kg: share of top-10,kg: hit rate,rag: share of top-10,rag: hit rate
+Pool + LLM (history),0.2364434443444344,0.23600000000000002,45.105,0.608,0.027960526315789474,0.723,0.024896265560165973,0.623,0.02086677367576244
+Pool + LLM (full evidence),0.3321760576057606,0.262,37.064,0.584,0.025684931506849314,0.706,0.024079320113314446,0.67,0.01791044776119403
+"Pool (RRF order, no LLM)",,,,0.92,0.03152173913043478,0.964,0.03008298755186722,0.708,0.02824858757062147
